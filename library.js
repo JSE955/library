@@ -16,16 +16,40 @@ function addBookToLibrary(book) {
 }
 
 const bookTable = document.querySelector('.bookTable');
+const addButton = document.querySelector('.addButton');
+const addForm = document.querySelector('.addForm');
+const submitBook = document.querySelector('.submitBook');
+addForm.style.display = 'none';
 
 let test1 = new Book('Batman', 'Kevin Conroy', 35, false);
 let test2 = new Book('Lion King', 'Disney', 100, true);
-let test3 = new Book('Spider Man', 'Marvel', 150, false);
 
 addBookToLibrary(test1);
 addBookToLibrary(test2);
-addBookToLibrary(test3);
 
-myLibrary.forEach((book) => {
+const displayBooks = () => {
+    myLibrary.forEach((book) => {
+        let newRow = document.createElement('tr');
+        let titleCell = document.createElement('td');
+        let authorCell = document.createElement('td');
+        let pagesCell = document.createElement('td');
+        let readCell = document.createElement('td');
+    
+        titleCell.appendChild(document.createTextNode(book.title))
+        authorCell.appendChild(document.createTextNode(book.author))
+        pagesCell.appendChild(document.createTextNode(book.pages))
+        readCell.appendChild(document.createTextNode(book.read))
+    
+        newRow.appendChild(titleCell);
+        newRow.appendChild(authorCell);
+        newRow.appendChild(pagesCell);
+        newRow.appendChild(readCell);
+    
+        bookTable.appendChild(newRow);
+    })
+}
+
+const addBookRow = (book) => {
     let newRow = document.createElement('tr');
     let titleCell = document.createElement('td');
     let authorCell = document.createElement('td');
@@ -43,5 +67,26 @@ myLibrary.forEach((book) => {
     newRow.appendChild(readCell);
 
     bookTable.appendChild(newRow);
+}
+
+addButton.addEventListener('click', () => {
+    addForm.style.display = 'block';
 })
+
+submitBook.addEventListener('click', (event) => {
+    event.preventDefault();
+    let newBook = {};
+    newBook.title = document.getElementById('title').value;
+    newBook.author = document.getElementById('author').value;
+    newBook.pages = Number(document.getElementById('pages').value);
+    newBook.read = document.querySelector('input[name="readYet"]:checked').value;
+    addBookToLibrary(newBook);
+    addBookRow(newBook);
+    addForm.style.display = 'none';
+    addForm.reset();
+})
+
+displayBooks();
+
+
 

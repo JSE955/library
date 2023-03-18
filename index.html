@@ -16,6 +16,27 @@
             <th>Read?</th>
         </tr>
     </table>
+    <button class="addButton">Add New Book</button>
+    <form class="addForm">
+        <fieldset>
+            <legend>Enter Book Details</legend>
+            <label for="title">
+                Book Title: <input type="text" id="title" name="title">
+            </label>
+            <label for="author">
+                Book Author: <input type="text" id="author" name="author">
+            </label>
+            <label for="pages">
+                Number of Pages: <input type="number" id="pages" name="pages">
+            </label>
+            <input type="radio" id="read" name="readYet" value="read">
+            <label for="read">Read</label>
+            <input type="radio" id="notRead" name="readYet" value="not yet read">
+            <label for="notRead">Not Yet Read</label>
+        </fieldset>
+        <button class="submitBook" type="submit">Submit Book Information</button>
+    </form>
+
     <script src="library.js"></script>
 </body>
 </html>
