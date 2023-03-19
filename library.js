@@ -8,7 +8,17 @@ function Book(title, author, pages, read) {
 }
 
 Book.prototype.info = function() {
-    console.log(`${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? 'read' : 'not read yet'}`)
+    console.log(`${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`)
+}
+
+Book.prototype.toggleRead = function() {
+    console.log('is this working')
+    if (this.read === 'read') {
+        this.read = 'not yet read';
+    } else {
+        this.read = 'read';
+    }
+    return this;
 }
 
 function addBookToLibrary(book) {
@@ -17,13 +27,15 @@ function addBookToLibrary(book) {
 
 const bookTable = document.querySelector('.bookTable');
 const addButton = document.querySelector('.addButton');
-const addForm = document.querySelector('.addForm');
 const submitBook = document.querySelector('.submitBook');
+
+// Add Form DOM object, hide it
+const addForm = document.querySelector('.addForm');
 addForm.style.display = 'none';
 
 // Load test data into library array
-let test1 = new Book('Batman', 'Kevin Conroy', 35, false);
-let test2 = new Book('Lion King', 'Disney', 100, true);
+let test1 = new Book('Batman', 'Kevin Conroy', 35, 'read');
+let test2 = new Book('Lion King', 'Disney', 100, 'not yet read');
 addBookToLibrary(test1);
 addBookToLibrary(test2);
 
@@ -35,33 +47,52 @@ const displayBooks = () => {
         let authorCell = document.createElement('td');
         let pagesCell = document.createElement('td');
         let readCell = document.createElement('td');
+
         let deleteCell = document.createElement('td');
         let deleteBtn = document.createElement('button');
         deleteBtn.className = 'deleteBtn';
         deleteBtn.setAttribute('data-index', index);
-    
-        titleCell.appendChild(document.createTextNode(book.title))
-        authorCell.appendChild(document.createTextNode(book.author))
-        pagesCell.appendChild(document.createTextNode(book.pages))
-        readCell.appendChild(document.createTextNode(book.read))
-        deleteBtn.appendChild(document.createTextNode('Delete'))
-
         deleteBtn.addEventListener('click', (event) => {
             let index = event.target.dataset.index;
             myLibrary = myLibrary.filter(book => myLibrary.indexOf(book) != index);
             displayBooks();
         })
-    
+
+        let toggleCell = document.createElement('td');
+        let toggleBtn = document.createElement('button');
+        toggleBtn.className = 'toggleBtn';
+        toggleBtn.setAttribute('data-index', index);
+        toggleBtn.addEventListener('click', (event) => {
+            let index = event.target.dataset.index;
+            myLibrary = myLibrary.map((book, n) => {
+                console.log('n:', n);
+                console.log('index:', index);
+                if (n != index ) {
+                    return book;
+                } else {
+                    return book.toggleRead();
+                }
+            })
+            displayBooks();
+        })
+
+        titleCell.appendChild(document.createTextNode(book.title))
+        authorCell.appendChild(document.createTextNode(book.author))
+        pagesCell.appendChild(document.createTextNode(book.pages))
+        readCell.appendChild(document.createTextNode(book.read))
+        deleteBtn.appendChild(document.createTextNode('Delete'))
+        toggleBtn.appendChild(document.createTextNode('Toggle Read'))
+
         newRow.appendChild(titleCell);
         newRow.appendChild(authorCell);
         newRow.appendChild(pagesCell);
         newRow.appendChild(readCell);
         newRow.appendChild(deleteCell);
+        newRow.appendChild(toggleCell);
         deleteCell.appendChild(deleteBtn);
+        toggleCell.appendChild(toggleBtn);
     
         bookTable.appendChild(newRow);
-        console.log(deleteBtn.dataset.index);
-
     })
 }
 
@@ -74,11 +105,10 @@ addButton.addEventListener('click', () => {
 submitBook.addEventListener('click', (event) => {
     event.preventDefault();
 
-    let newBook = {};
-    newBook.title = document.getElementById('title').value;
-    newBook.author = document.getElementById('author').value;
-    newBook.pages = Number(document.getElementById('pages').value);
-    newBook.read = document.querySelector('input[name="readYet"]:checked').value;
+    let newBook = new Book(document.getElementById('title').value,
+                           document.getElementById('author').value,
+                           Number(document.getElementById('pages').value),
+                           document.querySelector('input[name="readYet"]:checked').value);
 
     addBookToLibrary(newBook);
     displayBooks();
