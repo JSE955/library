@@ -1,4 +1,10 @@
 const library = document.querySelector(".library");
+const addBookBtn = document.querySelector(".addBookBtn");
+const formModal = document.querySelector(".form-modal");
+
+addBookBtn.addEventListener("click", () => {
+    formModal.showModal();
+});
 
 const myLibrary = [
     new Book("Sin City", "Frank Miller", 300, "read"),
