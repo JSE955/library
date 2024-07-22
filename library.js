@@ -51,6 +51,10 @@ function addBookToLibrary(title, author, pages, read) {
     myLibrary.push(book);
 }
 
+Book.prototype.toggleStatus = function() {
+    this.read = this.read === "not yet read" ? "read" : "not yet read";
+}
+
 function displayBooks() {
     let newTableBody = document.createElement("tbody");
     for (let i = 0; i < myLibrary.length; i++) {
@@ -66,7 +70,7 @@ function displayBooks() {
         readCell.textContent = myLibrary[i].read;
         
         let removeCell = document.createElement("td");
-        let removeBtn = document.createElement("button")
+        let removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove Book";
         removeBtn.setAttribute("type", "button");
         removeBtn.addEventListener("click", () => {
@@ -75,11 +79,22 @@ function displayBooks() {
         });
         removeCell.appendChild(removeBtn);
 
+        let toggleCell = document.createElement("td");
+        let toggleBtn = document.createElement("button");
+        toggleBtn.textContent = "Toggle Status";
+        toggleBtn.setAttribute("type", "button");
+        toggleBtn.addEventListener("click", () => {
+            myLibrary[i].toggleStatus();
+            displayBooks();
+        });
+        toggleCell.appendChild(toggleBtn);
+
         row.appendChild(titleCell);
         row.appendChild(authorCell);
         row.appendChild(pagesCell);
         row.appendChild(readCell);
         row.appendChild(removeCell);
+        row.appendChild(toggleCell);
 
         newTableBody.appendChild(row); 
     }
