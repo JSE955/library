@@ -53,22 +53,33 @@ function addBookToLibrary(title, author, pages, read) {
 
 function displayBooks() {
     let newTableBody = document.createElement("tbody");
-    for (book of myLibrary) {
+    for (let i = 0; i < myLibrary.length; i++) {
         let row = document.createElement("tr");
         
         let titleCell = document.createElement("td");
-        titleCell.textContent = book.title;
+        titleCell.textContent = myLibrary[i].title;
         let authorCell = document.createElement("td");
-        authorCell.textContent = book.author;
+        authorCell.textContent = myLibrary[i].author;
         let pagesCell = document.createElement("td");
-        pagesCell.textContent = book.pages;
+        pagesCell.textContent = myLibrary[i].pages;
         let readCell = document.createElement("td");
-        readCell.textContent = book.read;
+        readCell.textContent = myLibrary[i].read;
+        
+        let removeCell = document.createElement("td");
+        let removeBtn = document.createElement("button")
+        removeBtn.textContent = "Remove Book";
+        removeBtn.setAttribute("type", "button");
+        removeBtn.addEventListener("click", () => {
+            myLibrary.splice(i, 1);
+            displayBooks();
+        });
+        removeCell.appendChild(removeBtn);
 
         row.appendChild(titleCell);
         row.appendChild(authorCell);
         row.appendChild(pagesCell);
         row.appendChild(readCell);
+        row.appendChild(removeCell);
 
         newTableBody.appendChild(row); 
     }
