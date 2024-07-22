@@ -1,9 +1,33 @@
 const library = document.querySelector(".library");
 const addBookBtn = document.querySelector(".addBookBtn");
 const formModal = document.querySelector(".form-modal");
+const cancelBtn = document.querySelector(".cancelBtn");
+const addBtn = document.querySelector(".addBtn");
+
+const bookForm = document.getElementById("book-form");
+const titleField = document.querySelector("#title");
+const authorField = document.querySelector("#author");
+const pagesField = document.querySelector("#pages");
+const readField = document.querySelector("#read");
 
 addBookBtn.addEventListener("click", () => {
     formModal.showModal();
+});
+
+cancelBtn.addEventListener("click", () => {
+    bookForm.reset();
+    formModal.close();
+});
+
+addBtn.addEventListener("click", () => {
+    addBookToLibrary(
+        titleField.value,
+        authorField.value,
+        pagesField.value,
+        readField.value);
+    displayBooks();
+    bookForm.reset();
+    formModal.close();
 });
 
 const myLibrary = [
@@ -28,6 +52,7 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function displayBooks() {
+    let newTableBody = document.createElement("tbody");
     for (book of myLibrary) {
         let row = document.createElement("tr");
         
@@ -45,8 +70,10 @@ function displayBooks() {
         row.appendChild(pagesCell);
         row.appendChild(readCell);
 
-        library.appendChild(row);
+        newTableBody.appendChild(row); 
     }
+    let oldTableBody = document.querySelector("tbody");
+    oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
 }
 
 displayBooks();

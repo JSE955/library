@@ -10,15 +10,18 @@
 <body>
     <button type="button" class="addBookBtn">Add New Book</button>
     <table class="library">
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Pages</th>
-            <th>Read</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Pages</th>
+                <th>Read</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
     </table>
     <dialog class="form-modal">
-        <form action="#" method="#">
+        <form id="book-form" action="#" method="#">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title">
             <label for="author">Author:</label>
@@ -27,6 +30,8 @@
             <input type="number" id="pages" name="pages">
             <label for="read">Read:</label>
             <input type="text" id="read" name="read">
+            <button type="button" class="cancelBtn">Cancel</button>
+            <button type="button" class="addBtn">Add Book</button>
         </form>
     </dialog>
 </body>
